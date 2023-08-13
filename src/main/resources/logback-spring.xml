@@ -1,0 +1,11 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <!-- Configure logging for the com.mongodb.quickstart package -->
+    <logger name="com.mongodb.quickstart" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <!-- Root logger configuration -->
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
