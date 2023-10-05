@@ -1,4 +1,4 @@
-package com.mongodb.quickstart.javaspringbootcsfle;
+package com.mongodb.quickstart.javaspringbootcsfle.config;
 
 import com.mongodb.ClientEncryptionSettings;
 import com.mongodb.ConnectionString;
@@ -6,7 +6,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoNamespace;
 import com.mongodb.client.vault.ClientEncryption;
 import com.mongodb.client.vault.ClientEncryptions;
-import com.mongodb.quickstart.javaspringbootcsfle.services.KmsService;
+import com.mongodb.quickstart.javaspringbootcsfle.service.KmsService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class MongoDBKeyVaultClientConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBKeyVaultClientConfiguration.class);
     private final KmsService kmsService;
-    @Value("${spring.data.mongodb.uri}")
+    @Value("${spring.data.mongodb.vault.uri}")
     private String CONNECTION_STR;
     @Value("${mongodb.key.vault.db}")
     private String KEY_VAULT_DB;

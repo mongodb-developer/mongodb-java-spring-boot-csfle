@@ -37,10 +37,14 @@ public class PersonCollectionSetup {
     @Value("${mongodb.kms.provider}")
     private String LOCAL;
 
-    public PersonCollectionSetup(ClientEncryption clientEncryption, MongoClient standardMongoClient) {
+    public PersonCollectionSetup(ClientEncryption clientEncryption, MongoClient mongoClient) {
         this.clientEncryption = clientEncryption;
-        this.mongoClient = standardMongoClient;
+        this.mongoClient = mongoClient;
 
+    }
+
+    public static MongoNamespace getPersonNamespace() {
+        return personNamespace;
     }
 
     @PostConstruct
@@ -55,7 +59,8 @@ public class PersonCollectionSetup {
         MongoDatabase db = mongoClient.getDatabase(personNamespace.getDatabaseName());
         String collStr = personNamespace.getCollectionName();
         if (!doesPersonCollectionExist(db)) {
-            db.createCollection(collStr, new CreateCollectionOptions().validationOptions(new ValidationOptions().validator(jsonSchema)));
+            db.createCollection(collStr, new CreateCollectionOptions().validationOptions(
+                    new ValidationOptions().validator(jsonSchema)));
         }
     }
 
@@ -80,12 +85,28 @@ public class PersonCollectionSetup {
     private BsonDocument generateSchemaMap(String dekId) {
         // todo clean all the new Document(...)
         Document jsonSchema = new Document().append("bsonType", "object")
-                                            .append("encryptMetadata", new Document().append("keyId", List.of(new Document().append("$binary", new Document().append("base64", dekId)
-                                                                                                                                                             .append("subType", "04")))))
-                                            .append("properties", new Document().append("ssn", new Document().append("encrypt", new Document().append("bsonType", "string")
-                                                                                                                                              .append("algorithm", "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic")))
-                                                                                .append("blood_type", new Document().append("encrypt", new Document().append("bsonType", "string")
-                                                                                                                                                     .append("algorithm", "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic"))));
+                                            .append("encryptMetadata", new Document().append("keyId",
+                                                                                             List.of(new Document().append(
+                                                                                                     "$binary",
+                                                                                                     new Document().append(
+                                                                                                                           "base64",
+                                                                                                                           dekId)
+                                                                                                                   .append("subType",
+                                                                                                                           "04")))))
+                                            .append("properties", new Document().append("ssn",
+                                                                                        new Document().append("encrypt",
+                                                                                                              new Document().append(
+                                                                                                                                    "bsonType",
+                                                                                                                                    "string")
+                                                                                                                            .append("algorithm",
+                                                                                                                                    "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic")))
+                                                                                .append("blood_type",
+                                                                                        new Document().append("encrypt",
+                                                                                                              new Document().append(
+                                                                                                                                    "bsonType",
+                                                                                                                                    "string")
+                                                                                                                            .append("algorithm",
+                                                                                                                                    "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic"))));
 
         return BsonDocument.parse(jsonSchema.toJson());
     }
@@ -99,10 +120,6 @@ public class PersonCollectionSetup {
                  .into(new ArrayList<>())
                  .stream()
                  .anyMatch(c -> c.equals(personNamespace.getCollectionName()));
-    }
-
-    public MongoNamespace getPersonNamespace() {
-        return personNamespace;
     }
 
     public BsonDocument getSchemaMap() {

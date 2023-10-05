@@ -1,7 +1,5 @@
 package com.mongodb.quickstart.javaspringbootcsfle.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -9,21 +7,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document("persons")
-public class Person {
+public class PersonEntity {
+    //    @JsonSerialize(using = ToStringSerializer.class) // TODO maybe not needed now that I use a DTO?
     @Id
-    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
     @Field("first_name")
     private String firstName;
     @Field("last_name")
     private String lastName;
     @Indexed(unique = true)
-    @Field
     private String ssn;
     @Field("blood_type")
     private String bloodType;
 
-    public Person() {
+    public PersonEntity() {
+        super();
+    }
+
+    public PersonEntity(ObjectId id, String firstName, String lastName, String ssn, String bloodType) {
+        super();
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.ssn = ssn;
+        this.bloodType = bloodType;
     }
 
     @Override

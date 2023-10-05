@@ -11,6 +11,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,8 @@ public class KeyVaultCollectionSetup {
     @Value("${mongodb.key.vault.coll}")
     private String KEY_VAULT_COLL;
 
-    public KeyVaultCollectionSetup(MongoClient standardMongoClient) {
-        this.mongoClient = standardMongoClient;
+    public KeyVaultCollectionSetup(MongoClient mongoClient) {
+        this.mongoClient = mongoClient;
     }
 
     @PostConstruct

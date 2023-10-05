@@ -1,4 +1,4 @@
-package com.mongodb.quickstart.javaspringbootcsfle.services;
+package com.mongodb.quickstart.javaspringbootcsfle.service;
 
 import org.bson.BsonDocument;
 

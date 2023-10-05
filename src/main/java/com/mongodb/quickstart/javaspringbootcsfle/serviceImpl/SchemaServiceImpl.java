@@ -1,7 +1,7 @@
-package com.mongodb.quickstart.javaspringbootcsfle.servicesImpl;
+package com.mongodb.quickstart.javaspringbootcsfle.serviceImpl;
 
 import com.mongodb.quickstart.javaspringbootcsfle.components.PersonCollectionSetup;
-import com.mongodb.quickstart.javaspringbootcsfle.services.SchemaService;
+import com.mongodb.quickstart.javaspringbootcsfle.service.SchemaService;
 import org.bson.BsonDocument;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class SchemaServiceImpl implements SchemaService {
     }
 
     public Map<String, BsonDocument> getSecureClientSchemaMap() {
-        return Map.of(personCollectionSetup.getPersonNamespace().getFullName(), personCollectionSetup.getSchemaMap());
+        return Map.of(PersonCollectionSetup.getPersonNamespace().getFullName(), personCollectionSetup.getSchemaMap());
     }
 
 }

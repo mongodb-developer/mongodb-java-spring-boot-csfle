@@ -1,13 +1,12 @@
-package com.mongodb.quickstart.javaspringbootcsfle.services;
+package com.mongodb.quickstart.javaspringbootcsfle.service;
 
-import com.mongodb.quickstart.javaspringbootcsfle.model.Person;
-import org.bson.Document;
+import com.mongodb.quickstart.javaspringbootcsfle.dto.PersonDTO;
 
 import java.util.List;
 
-public interface PersonService { // todo useless interface?
+public interface PersonService {
 
-    List<Document> findAll();
+    List<PersonDTO> findAll();
 
-    Person save(Person person);
+    PersonDTO save(PersonDTO person);
 }

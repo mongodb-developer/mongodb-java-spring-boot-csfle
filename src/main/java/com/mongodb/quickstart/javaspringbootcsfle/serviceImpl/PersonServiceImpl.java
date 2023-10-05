@@ -1,28 +1,35 @@
-package com.mongodb.quickstart.javaspringbootcsfle.servicesImpl;
+package com.mongodb.quickstart.javaspringbootcsfle.serviceImpl;
 
-import com.mongodb.quickstart.javaspringbootcsfle.model.Person;
-import com.mongodb.quickstart.javaspringbootcsfle.services.PersonService;
-import org.bson.Document;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import com.mongodb.quickstart.javaspringbootcsfle.dto.PersonDTO;
+import com.mongodb.quickstart.javaspringbootcsfle.model.PersonEntity;
+import com.mongodb.quickstart.javaspringbootcsfle.repository.PersonRepository;
+import com.mongodb.quickstart.javaspringbootcsfle.service.PersonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// TODO remove this class? Useless?
+@Service
 public class PersonServiceImpl implements PersonService {
 
-    private final MongoTemplate mongoTemplate;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceImpl.class);
+    private final PersonRepository personRepository;
 
-    public PersonServiceImpl(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+    public PersonServiceImpl(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
     @Override
-    public List<Document> findAll() {
-        return null;
+    public List<PersonDTO> findAll() {
+        return personRepository.findAll().stream().map(PersonDTO::new).toList();
     }
 
     @Override
-    public Person save(Person person) {
-        return null;
+    public PersonDTO save(PersonDTO personDTO) {
+        PersonEntity person = personDTO.toPersonEntity();
+        LOGGER.info("Saving person: " + person);
+        PersonEntity personSaved = personRepository.save(person);
+        return new PersonDTO(personSaved);
     }
 }
