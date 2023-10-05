@@ -13,14 +13,14 @@ public class Person {
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
-    @Field(name = "first_name")
+    @Field("first_name")
     private String firstName;
-    @Field(name = "last_name")
+    @Field("last_name")
     private String lastName;
     @Indexed(unique = true)
     @Field
     private String ssn;
-    @Field(name = "blood_type")
+    @Field("blood_type")
     private String bloodType;
 
     public Person() {
