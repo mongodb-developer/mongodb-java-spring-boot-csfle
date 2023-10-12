@@ -50,7 +50,7 @@ public class MasterKeyServiceImpl implements MasterKeyService {
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             fos.write(masterKey);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("=> Couldn't save the Master Key to file \"" + filename + "\".", e.getMessage(), e);
         }
     }
 

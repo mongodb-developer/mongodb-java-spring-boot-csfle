@@ -4,14 +4,12 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
-import jakarta.annotation.PostConstruct;
 import org.bson.BsonDocument;
 import org.bson.BsonInt32;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -24,19 +22,15 @@ public class KeyVaultCollectionSetup {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KeyVaultCollectionSetup.class);
     private static final String INDEX_NAME = "uniqueKeyAltNames";
-    private final MongoClient mongoClient;
     @Value("${mongodb.key.vault.db}")
     private String KEY_VAULT_DB;
     @Value("${mongodb.key.vault.coll}")
     private String KEY_VAULT_COLL;
 
-    public KeyVaultCollectionSetup(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
-    }
-
-    @PostConstruct
-    public void init() {
-        LOGGER.info("=> Checking the vault collection.");
+    public void setupKeyVault(MongoClient mongoClient) {
+        LOGGER.info("=> Setup the key vault collection.");
+        LOGGER.debug("=> KEY_VAULT_DB: " + KEY_VAULT_DB);
+        LOGGER.debug("=> KEY_VAULT_COLL: " + KEY_VAULT_COLL);
         MongoDatabase db = mongoClient.getDatabase(KEY_VAULT_DB);
         MongoCollection<Document> vault = db.getCollection(KEY_VAULT_COLL);
         boolean vaultExists = doesCollectionExist(db, KEY_VAULT_COLL);

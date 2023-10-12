@@ -4,20 +4,20 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Encrypted;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document("persons")
+@Encrypted(keyId = "#{mongocrypt.keyId(#target)}") // TODO only usefull if you have a custom EvaluationContextExtension
 public class PersonEntity {
-    //    @JsonSerialize(using = ToStringSerializer.class) // TODO maybe not needed now that I use a DTO?
     @Id
     private ObjectId id;
-    @Field("first_name")
     private String firstName;
-    @Field("last_name")
     private String lastName;
     @Indexed(unique = true)
+    @Encrypted(algorithm = "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic")
     private String ssn;
-    @Field("blood_type")
+    @Encrypted(algorithm = "AEAD_AES_256_CBC_HMAC_SHA_512-Random")
     private String bloodType;
 
     public PersonEntity() {

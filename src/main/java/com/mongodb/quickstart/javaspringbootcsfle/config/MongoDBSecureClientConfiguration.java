@@ -5,20 +5,15 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoNamespace;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.lang.NonNull;
-import com.mongodb.quickstart.javaspringbootcsfle.components.PersonCollectionSetup;
 import com.mongodb.quickstart.javaspringbootcsfle.service.KmsService;
 import com.mongodb.quickstart.javaspringbootcsfle.service.SchemaService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
-import org.springframework.data.mongodb.core.encryption.MongoClientEncryption;
-import org.springframework.lang.NonNullApi;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +29,8 @@ public class MongoDBSecureClientConfiguration extends AbstractMongoClientConfigu
     private String CRYPT_SHARED_LIB_PATH;
     @Value("${spring.data.mongodb.storage.uri}")
     private String CONNECTION_STR;
+    @Value("${mongodb.default.db}")
+    private String DEFAULT_DB;
     @Value("${mongodb.key.vault.db}")
     private String KEY_VAULT_DB;
     @Value("${mongodb.key.vault.coll}")
@@ -75,7 +72,6 @@ public class MongoDBSecureClientConfiguration extends AbstractMongoClientConfigu
      */
     @Override
     @NonNull
-    @Bean(name = "secureMongoClient")
     public MongoClient mongoClient() {
         LOGGER.info("=> Creating MongoDB client with automatic encryption/decryption.");
         return super.mongoClient();
@@ -84,7 +80,7 @@ public class MongoDBSecureClientConfiguration extends AbstractMongoClientConfigu
     @Override
     @NonNull
     protected String getDatabaseName() {
-        return PersonCollectionSetup.getPersonNamespace().getDatabaseName();
+        return DEFAULT_DB;
     }
 
     @Override

@@ -1,4 +1,4 @@
 .idea/
 target/
 master-key.txt
-
+**/*.json
