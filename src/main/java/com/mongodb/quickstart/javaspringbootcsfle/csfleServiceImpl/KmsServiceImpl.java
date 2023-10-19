@@ -1,7 +1,7 @@
-package com.mongodb.quickstart.javaspringbootcsfle.serviceImpl;
+package com.mongodb.quickstart.javaspringbootcsfle.csfleServiceImpl;
 
-import com.mongodb.quickstart.javaspringbootcsfle.service.KmsService;
-import com.mongodb.quickstart.javaspringbootcsfle.service.MasterKeyService;
+import com.mongodb.quickstart.javaspringbootcsfle.csfleService.KmsService;
+import com.mongodb.quickstart.javaspringbootcsfle.csfleService.MasterKeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

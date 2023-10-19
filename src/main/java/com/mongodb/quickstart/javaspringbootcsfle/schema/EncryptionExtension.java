@@ -1,6 +1,6 @@
-/*
 package com.mongodb.quickstart.javaspringbootcsfle.ccschema;
 
+import com.mongodb.quickstart.javaspringbootcsfle.csfleService.DataEncryptionKeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.spel.spi.EvaluationContextExtension;
@@ -14,6 +14,11 @@ import java.util.Map;
 public class EncryptionExtension implements EvaluationContextExtension {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EncryptionExtension.class);
+    private final DataEncryptionKeyService dataEncryptionKeyService;
+
+    public EncryptionExtension(DataEncryptionKeyService dataEncryptionKeyService) {
+        this.dataEncryptionKeyService = dataEncryptionKeyService;
+    }
 
     @Override
     public String getExtensionId() {
@@ -25,14 +30,16 @@ public class EncryptionExtension implements EvaluationContextExtension {
     public Map<String, Function> getFunctions() {
         LOGGER.info("!!!=> getFunctions");
         try {
-            return Collections.singletonMap("keyId", new Function(EncryptionExtension.class.getMethod("computeKeyId", String.class), this));
+            return Collections.singletonMap("keyId", new Function(
+                    EncryptionExtension.class.getMethod("computeKeyId", String.class), this));
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
     public String computeKeyId(String target) {
-        LOGGER.info("!!!=> Computing keyId for target: " + target);
-        return "AMDd3VC/RV6efGNXD4dwbw=="; // todo actually make this dynamic
+        String dek = dataEncryptionKeyService.getDataEncryptionKeysB64().get(target);
+        LOGGER.info("!!!=> Computing dek for target: " + target + " => " + dek);
+        return dek;
     }
-}*/
+}

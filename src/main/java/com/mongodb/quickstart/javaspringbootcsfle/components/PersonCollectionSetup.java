@@ -1,3 +1,4 @@
+/*
 package com.mongodb.quickstart.javaspringbootcsfle.components;
 
 import com.mongodb.MongoNamespace;
@@ -15,8 +16,6 @@ import org.bson.json.JsonWriterSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.MongoJsonSchemaCreator;
-import org.springframework.data.mongodb.core.schema.MongoJsonSchema;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -29,18 +28,19 @@ public class PersonCollectionSetup implements EncryptedCollection {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonCollectionSetup.class);
     private static final MongoNamespace personNamespace = new MongoNamespace("test", "persons");
+    private static final Class<PersonEntity> ENTITY_CLASS = PersonEntity.class;
     private static final String DEK_NAME = "personDEK";
     private String DEKBase64;
-    private BsonDocument schemaMap;
 
-    @Value("${mongodb.kms.provider}")
-    private String KMS_PROVIDER;
+*/
+/*    @Value("${mongodb.kms.provider}")
+    private String KMS_PROVIDER;*//*
+
 
     @Override
-    public void init(MongoClient client, ClientEncryption clientEncryption) {
-        this.DEKBase64 = createOrRetrieveDEK(clientEncryption);
-        this.schemaMap = generateSchemaMap(DEKBase64);
-        createPersonCollectionIfNecessary(client);
+    public void init(ClientEncryption clientEncryption) {
+//        this.DEKBase64 = createOrRetrieveDEK(clientEncryption);
+//        createPersonCollectionIfNecessary(client);
     }
 
     private void createPersonCollectionIfNecessary(MongoClient client) {
@@ -52,7 +52,8 @@ public class PersonCollectionSetup implements EncryptedCollection {
         }
     }
 
-    private String createOrRetrieveDEK(ClientEncryption clientEncryption) {
+    */
+/*private String createOrRetrieveDEK(ClientEncryption clientEncryption) {
         Base64.Encoder b64Encoder = Base64.getEncoder();
         BsonDocument personDEK = clientEncryption.getKeyByAltName(DEK_NAME);
         BsonBinary dataKeyId;
@@ -68,17 +69,21 @@ public class PersonCollectionSetup implements EncryptedCollection {
         }
         LOGGER.debug("=> Person Collection Base64 DEK ID: " + b64Encoder.encodeToString(dataKeyId.getData()));
         return b64Encoder.encodeToString(dataKeyId.getData());
-    }
+    }*//*
 
-    private boolean doesPersonCollectionExist(MongoDatabase db) {
+
+    */
+/*private boolean doesPersonCollectionExist(MongoDatabase db) {
         return db.listCollectionNames()
                  .into(new ArrayList<>())
                  .stream()
                  .anyMatch(c -> c.equals(personNamespace.getCollectionName()));
-    }
+    }*//*
+
 
     // TODO use the dynamic generation of the schema map using the Entity instead of this hardcoded version
-    private BsonDocument generateSchemaMap(String dekId) {
+    */
+/*private BsonDocument generateSchemaMap(String dekId) {
         LOGGER.info("=> Generating Schema Map.");
         if (schemaMap != null) {
             LOGGER.info("=> Schema Map already exists. Returning existing value.");
@@ -100,24 +105,34 @@ public class PersonCollectionSetup implements EncryptedCollection {
                                         .append("properties", properties);
         LOGGER.info("=> JSON Schema: " + schema.toJson(JsonWriterSettings.builder().indent(true).build()));
         return schemaMap = BsonDocument.parse(schema.toJson());
-    }
+    }*//*
+
 
     // TODO try to make this work but doesn't work without the MappingContext that is only created later by Spring with MongoDBSecureClientConfiguration
-    /*private BsonDocument generateSchemaMap() {
+    */
+/*private BsonDocument generateSchemaMap() {
         MongoJsonSchema personSchema = MongoJsonSchemaCreator.create() // todo error if I don't provide a context with EncryptionExtension for the SPEL evaluation from PersonEntity
                                                              .filter(MongoJsonSchemaCreator.encryptedOnly())
                                                              .createSchemaFor(PersonEntity.class);
         LOGGER.info("=======> JSON Schema: " + personSchema.schemaDocument().toJson());
         return personSchema.schemaDocument().toBsonDocument();
-    }*/
+    }*//*
+
 
     public BsonDocument getSchemaMap() {
         return schemaMap;
     }
 
-    public BsonDocument getJsonSchemaWrapper() {
-        return new BsonDocument("$jsonSchema", schemaMap);
+    @Override
+    public Class<PersonEntity> getEntityClass() {
+        return ENTITY_CLASS;
     }
+
+    */
+/*public BsonDocument getJsonSchemaWrapper() {
+        return new BsonDocument("$jsonSchema", schemaMap);
+    }*//*
+
 
     public String getDEKBase64() {
         return DEKBase64;
@@ -128,3 +143,4 @@ public class PersonCollectionSetup implements EncryptedCollection {
     }
 
 }
+*/

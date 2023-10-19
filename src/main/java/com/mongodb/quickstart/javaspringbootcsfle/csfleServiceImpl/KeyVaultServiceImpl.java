@@ -1,9 +1,10 @@
-package com.mongodb.quickstart.javaspringbootcsfle.components;
+package com.mongodb.quickstart.javaspringbootcsfle.csfleServiceImpl;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
+import com.mongodb.quickstart.javaspringbootcsfle.csfleService.KeyVaultService;
 import org.bson.BsonDocument;
 import org.bson.BsonInt32;
 import org.bson.Document;
@@ -18,16 +19,16 @@ import java.util.ArrayList;
 import static com.mongodb.client.model.Filters.exists;
 
 @Component
-public class KeyVaultCollectionSetup {
+public class KeyVaultServiceImpl implements KeyVaultService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KeyVaultCollectionSetup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KeyVaultServiceImpl.class);
     private static final String INDEX_NAME = "uniqueKeyAltNames";
     @Value("${mongodb.key.vault.db}")
     private String KEY_VAULT_DB;
     @Value("${mongodb.key.vault.coll}")
     private String KEY_VAULT_COLL;
 
-    public void setupKeyVault(MongoClient mongoClient) {
+    public void setupKeyVaultCollection(MongoClient mongoClient) {
         LOGGER.info("=> Setup the key vault collection.");
         LOGGER.debug("=> KEY_VAULT_DB: " + KEY_VAULT_DB);
         LOGGER.debug("=> KEY_VAULT_COLL: " + KEY_VAULT_COLL);

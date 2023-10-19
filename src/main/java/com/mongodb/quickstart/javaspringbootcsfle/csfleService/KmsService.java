@@ -1,4 +1,4 @@
-package com.mongodb.quickstart.javaspringbootcsfle.service;
+package com.mongodb.quickstart.javaspringbootcsfle.csfleService;
 
 import java.util.Map;
 

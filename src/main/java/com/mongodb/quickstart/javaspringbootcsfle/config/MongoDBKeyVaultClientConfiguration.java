@@ -6,7 +6,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoNamespace;
 import com.mongodb.client.vault.ClientEncryption;
 import com.mongodb.client.vault.ClientEncryptions;
-import com.mongodb.quickstart.javaspringbootcsfle.service.KmsService;
+import com.mongodb.quickstart.javaspringbootcsfle.csfleService.KmsService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

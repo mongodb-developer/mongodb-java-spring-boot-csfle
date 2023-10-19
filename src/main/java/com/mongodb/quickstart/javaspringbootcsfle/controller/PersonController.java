@@ -1,11 +1,8 @@
 package com.mongodb.quickstart.javaspringbootcsfle.controller;
 
 import com.mongodb.quickstart.javaspringbootcsfle.dto.PersonDTO;
-import com.mongodb.quickstart.javaspringbootcsfle.model.PersonEntity;
-import com.mongodb.quickstart.javaspringbootcsfle.repository.PersonRepository;
 import com.mongodb.quickstart.javaspringbootcsfle.service.PersonService;
-import com.mongodb.quickstart.javaspringbootcsfle.serviceImpl.MasterKeyServiceImpl;
-import com.mongodb.quickstart.javaspringbootcsfle.serviceImpl.PersonServiceImpl;
+import com.mongodb.quickstart.javaspringbootcsfle.csfleServiceImpl.MasterKeyServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

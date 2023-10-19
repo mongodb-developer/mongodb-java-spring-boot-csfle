@@ -1,17 +1,18 @@
+/*
 package com.mongodb.quickstart.javaspringbootcsfle.components;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.vault.ClientEncryption;
-import org.bson.BsonDocument;
+import com.mongodb.MongoNamespace;
+import com.mongodb.quickstart.javaspringbootcsfle.model.PersonEntity;
 
 public interface EncryptedCollection {
 
-    void init(MongoClient client, ClientEncryption clientEncryption);
+//    void init(ClientEncryption clientEncryption); // todo clean
 
-    BsonDocument getSchemaMap();
-
-    BsonDocument getJsonSchemaWrapper();
+    Class<?> getEntityClass();
 
     String getFullName();
 
+    String getDEKName();
+
 }
+*/
