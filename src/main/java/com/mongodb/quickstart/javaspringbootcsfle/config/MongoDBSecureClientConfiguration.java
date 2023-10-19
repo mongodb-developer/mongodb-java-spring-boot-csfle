@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.core.MongoJsonSchemaCreator;
 
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 @Configuration
+@DependsOn("encryptionSetup")
 public class MongoDBSecureClientConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBSecureClientConfiguration.class);
@@ -54,8 +57,8 @@ public class MongoDBSecureClientConfiguration {
             Map<String, BsonDocument> schemaMap = schemaService.generateSchemasMap(schemaCreator)
                                                                .entrySet()
                                                                .stream()
-                                                               .collect(Collectors.toMap(e -> e.getKey().getFullName(),
-                                                                                         Map.Entry::getValue));
+                                                               .collect(toMap(e -> e.getKey().getFullName(),
+                                                                              Map.Entry::getValue));
             Map<String, Object> extraOptions = Map.of("cryptSharedLibPath", CRYPT_SHARED_LIB_PATH,
                                                       "cryptSharedLibRequired", true);
             AutoEncryptionSettings oes = AutoEncryptionSettings.builder()
