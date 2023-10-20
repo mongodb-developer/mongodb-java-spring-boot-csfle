@@ -12,13 +12,13 @@ import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 import static com.mongodb.client.model.Filters.exists;
 
-@Component
+@Service
 public class KeyVaultServiceImpl implements KeyVaultService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KeyVaultServiceImpl.class);
@@ -29,37 +29,37 @@ public class KeyVaultServiceImpl implements KeyVaultService {
     private String KEY_VAULT_COLL;
 
     public void setupKeyVaultCollection(MongoClient mongoClient) {
-        LOGGER.info("=> Setup the key vault collection.");
-        LOGGER.debug("=> KEY_VAULT_DB: " + KEY_VAULT_DB);
-        LOGGER.debug("=> KEY_VAULT_COLL: " + KEY_VAULT_COLL);
+        LOGGER.info("=> Setup the key vault collection {}.{}", KEY_VAULT_DB, KEY_VAULT_COLL);
         MongoDatabase db = mongoClient.getDatabase(KEY_VAULT_DB);
         MongoCollection<Document> vault = db.getCollection(KEY_VAULT_COLL);
         boolean vaultExists = doesCollectionExist(db, KEY_VAULT_COLL);
         if (vaultExists) {
             LOGGER.info("=> Vault collection already exists.");
-            boolean indexExists = doesIndexExist(vault, INDEX_NAME);
+            boolean indexExists = doesIndexExist(vault);
             if (!indexExists) {
                 LOGGER.info("=> Unique index created on the keyAltNames");
                 createKeyVaultIndex(vault);
             }
         } else {
-            LOGGER.info("=> Creating a new vault collection + index on keyAltNames.");
+            LOGGER.info("=> Creating a new vault collection & index on keyAltNames.");
             createKeyVaultIndex(vault);
         }
     }
 
     private void createKeyVaultIndex(MongoCollection<Document> vault) {
         Bson keyAltNamesExists = exists("keyAltNames");
-        IndexOptions indexOpts = new IndexOptions().name(INDEX_NAME).partialFilterExpression(keyAltNamesExists).unique(true);
+        IndexOptions indexOpts = new IndexOptions().name(INDEX_NAME)
+                                                   .partialFilterExpression(keyAltNamesExists)
+                                                   .unique(true);
         vault.createIndex(new BsonDocument("keyAltNames", new BsonInt32(1)), indexOpts);
     }
 
-    private boolean doesIndexExist(MongoCollection<Document> coll, String indexName) {
+    private boolean doesIndexExist(MongoCollection<Document> coll) {
         return coll.listIndexes()
                    .into(new ArrayList<>())
                    .stream()
                    .map(i -> i.get("name"))
-                   .anyMatch(n -> n.equals(indexName));
+                   .anyMatch(n -> n.equals(INDEX_NAME));
     }
 
     private boolean doesCollectionExist(MongoDatabase db, String coll) {

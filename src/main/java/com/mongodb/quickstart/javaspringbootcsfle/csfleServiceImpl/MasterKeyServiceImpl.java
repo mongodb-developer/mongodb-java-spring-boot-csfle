@@ -25,11 +25,11 @@ public class MasterKeyServiceImpl implements MasterKeyService {
         byte[] masterKey = new byte[SIZE_MASTER_KEY];
         try {
             retrieveMasterKeyFromFile(masterKeyFilename, masterKey);
-            LOGGER.info("=> An existing Master Key was found in file \"" + masterKeyFilename + "\".");
+            LOGGER.info("=> An existing Master Key was found in file {}.", masterKeyFilename);
         } catch (IOException e) {
             masterKey = generateMasterKey();
             saveMasterKeyToFile(masterKeyFilename, masterKey);
-            LOGGER.info("=> A new Master Key has been generated and saved to file \"" + masterKeyFilename + "\".");
+            LOGGER.info("=> A new Master Key has been generated and saved to file {}.", masterKeyFilename);
         }
         return masterKey;
     }
@@ -50,7 +50,8 @@ public class MasterKeyServiceImpl implements MasterKeyService {
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             fos.write(masterKey);
         } catch (IOException e) {
-            LOGGER.error("=> Couldn't save the Master Key to file \"" + filename + "\".", e.getMessage(), e);
+            LOGGER.error("=> Couldn't save the Master Key to file {}.", filename);
+            LOGGER.error("=> Error message: {}", e.getMessage(), e);
         }
     }
 

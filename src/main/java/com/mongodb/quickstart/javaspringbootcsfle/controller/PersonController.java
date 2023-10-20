@@ -39,7 +39,7 @@ public class PersonController {
     @PostMapping("/person")
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDTO createPerson(@RequestBody PersonDTO personDTO) {
-        LOGGER.info("Saving person: " + personDTO);
+        LOGGER.info("Saving person: {}", personDTO);
         return personService.save(personDTO);
     }
 

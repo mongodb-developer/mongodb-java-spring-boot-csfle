@@ -11,9 +11,8 @@ public record PersonDTO(
         String ssn,
         @JsonProperty("blood_type") String bloodType) {
 
-    public PersonDTO(PersonEntity personSaved) {
-        this(personSaved.getId().toHexString(), personSaved.getFirstName(), personSaved.getLastName(),
-             personSaved.getSsn(), personSaved.getBloodType());
+    public PersonDTO(PersonEntity p) {
+        this(p.getId().toHexString(), p.getFirstName(), p.getLastName(), p.getSsn(), p.getBloodType());
     }
 
     public PersonEntity toPersonEntity() {

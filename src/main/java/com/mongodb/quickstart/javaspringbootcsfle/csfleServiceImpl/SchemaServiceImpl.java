@@ -1,9 +1,9 @@
 package com.mongodb.quickstart.javaspringbootcsfle.csfleServiceImpl;
 
 import com.mongodb.MongoNamespace;
-import com.mongodb.quickstart.javaspringbootcsfle.components.EncryptedCollectionsComponent;
+import com.mongodb.quickstart.javaspringbootcsfle.configuration.EncryptedCollectionsConfiguration;
+import com.mongodb.quickstart.javaspringbootcsfle.configuration.EncryptedEntity;
 import com.mongodb.quickstart.javaspringbootcsfle.csfleService.SchemaService;
-import com.mongodb.quickstart.javaspringbootcsfle.model.EncryptedEntity;
 import org.bson.BsonDocument;
 import org.bson.json.JsonWriterSettings;
 import org.slf4j.Logger;
@@ -24,11 +24,12 @@ public class SchemaServiceImpl implements SchemaService {
     @Override
     public Map<MongoNamespace, BsonDocument> generateSchemasMap(MongoJsonSchemaCreator schemaCreator) {
         LOGGER.info("=> Generating schema map.");
-        return schemasMap = EncryptedCollectionsComponent.collectionMap.entrySet()
-                                                                       .stream()
-                                                                       .collect(toMap(Map.Entry::getKey,
-                                                                                      e -> generateSchema(schemaCreator,
-                                                                                                          e.getValue())));
+        return schemasMap = EncryptedCollectionsConfiguration.encryptedEntities.stream()
+                                                                               .collect(
+                                                                                       toMap(EncryptedEntity::getNamespace,
+                                                                                             e -> generateSchema(
+                                                                                                     schemaCreator,
+                                                                                                     e.getEntityClass())));
     }
 
     @Override
@@ -36,13 +37,12 @@ public class SchemaServiceImpl implements SchemaService {
         return schemasMap;
     }
 
-    private BsonDocument generateSchema(MongoJsonSchemaCreator schemaCreator,
-                                        Class<? extends EncryptedEntity> entityClass) {
+    private BsonDocument generateSchema(MongoJsonSchemaCreator schemaCreator, Class<?> entityClass) {
         BsonDocument schema = schemaCreator.filter(MongoJsonSchemaCreator.encryptedOnly())
                                            .createSchemaFor(entityClass)
                                            .schemaDocument()
                                            .toBsonDocument();
-        LOGGER.info("=> JSON Schema: " + schema.toJson(JsonWriterSettings.builder().indent(true).build()));
+        LOGGER.info("=> JSON Schema: {}", schema.toJson(JsonWriterSettings.builder().indent(true).build()));
         return schema;
     }
 

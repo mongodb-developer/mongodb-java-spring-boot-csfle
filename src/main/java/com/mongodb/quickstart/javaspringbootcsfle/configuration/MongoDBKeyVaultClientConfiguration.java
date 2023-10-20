@@ -1,4 +1,4 @@
-package com.mongodb.quickstart.javaspringbootcsfle.config;
+package com.mongodb.quickstart.javaspringbootcsfle.configuration;
 
 import com.mongodb.ClientEncryptionSettings;
 import com.mongodb.ConnectionString;

@@ -1,6 +1,8 @@
-package com.mongodb.quickstart.javaspringbootcsfle.config;
+package com.mongodb.quickstart.javaspringbootcsfle.configuration;
 
 import com.mongodb.AutoEncryptionSettings;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoNamespace;
 import com.mongodb.quickstart.javaspringbootcsfle.csfleService.KmsService;
 import com.mongodb.quickstart.javaspringbootcsfle.csfleService.SchemaService;
@@ -21,7 +23,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.toMap;
 
 @Configuration
-@DependsOn("encryptionSetup")
+@DependsOn("keyVaultAndDekSetup")
 public class MongoDBSecureClientConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBSecureClientConfiguration.class);
@@ -31,8 +33,6 @@ public class MongoDBSecureClientConfiguration {
     private String CRYPT_SHARED_LIB_PATH;
     @Value("${spring.data.mongodb.storage.uri}")
     private String CONNECTION_STR;
-    @Value("${mongodb.default.db}")
-    private String DEFAULT_DB;
     @Value("${mongodb.key.vault.db}")
     private String KEY_VAULT_DB;
     @Value("${mongodb.key.vault.coll}")
@@ -50,7 +50,15 @@ public class MongoDBSecureClientConfiguration {
     }
 
     @Bean
-    MongoClientSettingsBuilderCustomizer customizer(MappingContext mappingContext) {
+    public MongoClientSettings mongoClientSettings() {
+        LOGGER.info("=> Creating the MongoClientSettings.");
+        return MongoClientSettings.builder()
+                                  .applyConnectionString(new ConnectionString(CONNECTION_STR))
+                                  .build();
+    }
+
+    @Bean
+    public MongoClientSettingsBuilderCustomizer customizer(MappingContext mappingContext) {
         LOGGER.info("=> Creating the MongoClientSettingsBuilderCustomizer.");
         return builder -> {
             MongoJsonSchemaCreator schemaCreator = MongoJsonSchemaCreator.create(mappingContext);
@@ -70,6 +78,5 @@ public class MongoDBSecureClientConfiguration {
             builder.autoEncryptionSettings(oes);
         };
     }
-
 }
 

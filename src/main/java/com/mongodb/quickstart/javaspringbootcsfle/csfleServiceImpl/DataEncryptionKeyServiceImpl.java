@@ -2,6 +2,7 @@ package com.mongodb.quickstart.javaspringbootcsfle.csfleServiceImpl;
 
 import com.mongodb.client.model.vault.DataKeyOptions;
 import com.mongodb.client.vault.ClientEncryption;
+import com.mongodb.quickstart.javaspringbootcsfle.configuration.EncryptedEntity;
 import com.mongodb.quickstart.javaspringbootcsfle.csfleService.DataEncryptionKeyService;
 import org.bson.BsonBinary;
 import org.bson.BsonDocument;
@@ -21,9 +22,9 @@ public class DataEncryptionKeyServiceImpl implements DataEncryptionKeyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataEncryptionKeyServiceImpl.class);
     private final ClientEncryption clientEncryption;
+    private final Map<String, String> dataEncryptionKeysB64 = new HashMap<>();
     @Value("${mongodb.kms.provider}")
     private String KMS_PROVIDER;
-    private Map<String, String> dataEncryptionKeysB64 = new HashMap<>();
 
     public DataEncryptionKeyServiceImpl(ClientEncryption clientEncryption) {
         this.clientEncryption = clientEncryption;
@@ -31,27 +32,30 @@ public class DataEncryptionKeyServiceImpl implements DataEncryptionKeyService {
 
     public Map<String, String> getDataEncryptionKeysB64() {
         LOGGER.info("=> Getting Data Encryption Keys Base64 Map.");
-        LOGGER.info("=> Size map: " + dataEncryptionKeysB64.size());
+        LOGGER.info("=> Keys in DEK Map: {}", dataEncryptionKeysB64.entrySet());
         return dataEncryptionKeysB64;
     }
 
-    public String createOrRetrieveDEK(String dekName) {
+    public String createOrRetrieveDEK(EncryptedEntity encryptedEntity) {
         Base64.Encoder b64Encoder = Base64.getEncoder();
+        String dekName = encryptedEntity.getDekName();
         BsonDocument dek = clientEncryption.getKeyByAltName(dekName);
         BsonBinary dataKeyId;
         if (dek == null) {
-            LOGGER.info("=> Creating Data Encryption Key: " + dekName);
+            LOGGER.info("=> Creating Data Encryption Key: {}", dekName);
             DataKeyOptions dko = new DataKeyOptions().keyAltNames(of(dekName));
             dataKeyId = clientEncryption.createDataKey(KMS_PROVIDER, dko);
-            LOGGER.debug("=> Person Collection DEK ID: " + dataKeyId);
+            LOGGER.debug("=> DEK ID: {}", dataKeyId);
         } else {
-            LOGGER.info("=> Existing Data Encryption Key: " + dekName);
+            LOGGER.info("=> Existing Data Encryption Key: {}", dekName);
             dataKeyId = dek.get("_id").asBinary();
-            LOGGER.debug("=> Person Collection DEK ID: " + dataKeyId);
+            LOGGER.debug("=> DEK ID: {}", dataKeyId);
         }
         String dek64 = b64Encoder.encodeToString(dataKeyId.getData());
-        LOGGER.debug("=> Person Collection Base64 DEK ID: " + dek64);
-        dataEncryptionKeysB64.put(dekName, dek64);
+        LOGGER.debug("=> Base64 DEK ID: {}", dek64);
+        LOGGER.info("=> Adding Data Encryption Key to the Map with key: {}",
+                    encryptedEntity.getEntityClass().getSimpleName());
+        dataEncryptionKeysB64.put(encryptedEntity.getEntityClass().getSimpleName(), dek64);
         return dek64;
     }
 

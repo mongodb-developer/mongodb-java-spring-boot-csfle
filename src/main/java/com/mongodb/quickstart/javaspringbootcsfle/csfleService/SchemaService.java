@@ -8,5 +8,6 @@ import java.util.Map;
 
 public interface SchemaService {
     Map<MongoNamespace, BsonDocument> generateSchemasMap(MongoJsonSchemaCreator schemaCreator);
+
     Map<MongoNamespace, BsonDocument> getSchemasMap();
 }

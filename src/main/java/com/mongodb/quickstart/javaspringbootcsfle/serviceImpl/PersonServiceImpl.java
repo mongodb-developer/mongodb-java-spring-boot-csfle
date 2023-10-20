@@ -28,7 +28,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDTO save(PersonDTO personDTO) {
         PersonEntity person = personDTO.toPersonEntity();
-        LOGGER.info("Saving person: " + person);
+        LOGGER.info("Saving person: {}", person);
         PersonEntity personSaved = personRepository.save(person);
         return new PersonDTO(personSaved);
     }

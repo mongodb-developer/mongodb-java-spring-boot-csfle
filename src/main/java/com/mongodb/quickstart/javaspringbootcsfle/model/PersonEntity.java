@@ -1,36 +1,31 @@
 package com.mongodb.quickstart.javaspringbootcsfle.model;
 
-import com.mongodb.MongoNamespace;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Encrypted;
 
+/**
+ * This is the entity class for the "persons" collection.
+ * The SPEL expression of the @Encrypted annotation is used to determine the keyId to use for encryption.
+ * @see com.mongodb.quickstart.javaspringbootcsfle.components.EntitySpelEvaluationExtension
+ */
 @Document("persons")
 @Encrypted(keyId = "#{mongocrypt.keyId(#target)}")
-public class PersonEntity extends EncryptedEntity {
-    static { // todo remove?
-        NAMESPACE = new MongoNamespace("test", "persons");
-        ENTITY_CLASS = PersonEntity.class;
-        DEK_NAME = "personDEK";
-    }
-
+public class PersonEntity {
     @Id
     private ObjectId id;
     private String firstName;
     private String lastName;
-    //    @Indexed(unique = true) // todo index or not index? Managed by Spring Data or not?
     @Encrypted(algorithm = "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic")
     private String ssn;
     @Encrypted(algorithm = "AEAD_AES_256_CBC_HMAC_SHA_512-Random")
     private String bloodType;
 
     public PersonEntity() {
-        super();
     }
 
     public PersonEntity(ObjectId id, String firstName, String lastName, String ssn, String bloodType) {
-        super();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
