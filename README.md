@@ -60,6 +60,8 @@ mvnw.cmd spring-boot:run
 
 # Test REST API
 
+Create a `person` document:
+
 ```bash
 curl -X POST http://localhost:8080/person \
   -H 'Content-Type: application/json' \
@@ -71,8 +73,31 @@ curl -X POST http://localhost:8080/person \
 }'
 ```
 
+Find all persons in the database. Note that the decryption is done automatically:
+
 ```bash
 curl http://localhost:8080/persons
+```
+
+Read the encrypted data in the `persons` collection:
+
+```bash
+mongosh "mongodb://localhost/mydb" --quiet --eval "db.persons.find()"
+```
+
+Result in the `persons` collection:
+
+```json
+[
+  {
+    _id: ObjectId("6537e9859f1b170d4cd25bee"),
+    firstName: 'John',
+    lastName: 'Doe',
+    ssn: Binary.createFromBase64("AflGzaz/YUj6m2aENIoB50MCn1rhDllb79H17xjkUMK2obL7i038eANieCC/nO7AcaPBtpOdtqqPEvNdd9VgnC6l9QaLEIC/5w+CYPujkNxFIA37PrsqMlDeL3AsMuAgTZg=", 6),
+    bloodType: Binary.createFromBase64("AvlGzaz/YUj6m2aENIoB50MCaHTxjCBlPZIck2gstfXB6yFfJ0KISjJJE24k3LXDoTv09GH+cwq+u6ApBuDU5OBkRe/6U8nPRKKcc5nirBLIzg==", 6),
+    _class: 'com.mongodb.quickstart.javaspringbootcsfle.model.PersonEntity'
+  }
+]
 ```
 
 # Author
