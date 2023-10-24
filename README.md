@@ -87,7 +87,7 @@ mongosh "mongodb://localhost/mydb" --quiet --eval "db.persons.find()"
 
 Result in the `persons` collection:
 
-```json
+```javascript
 [
   {
     _id: ObjectId("6537e9859f1b170d4cd25bee"),
