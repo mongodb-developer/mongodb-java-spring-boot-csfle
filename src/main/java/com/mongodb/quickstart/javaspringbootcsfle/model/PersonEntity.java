@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Encrypted;
 
 /**
  * This is the entity class for the "persons" collection.
- * The SPEL expression of the @Encrypted annotation is used to determine the keyId to use for encryption.
+ * The SpEL expression of the @Encrypted annotation is used to determine the DEK's keyId to use for the encryption.
  * @see com.mongodb.quickstart.javaspringbootcsfle.components.EntitySpelEvaluationExtension
  */
 @Document("persons")

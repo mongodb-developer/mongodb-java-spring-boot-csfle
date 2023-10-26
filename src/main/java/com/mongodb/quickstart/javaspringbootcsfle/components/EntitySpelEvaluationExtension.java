@@ -11,8 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * Will evaluate the SePL expressions in the Entity classes like this: #{mongocrypt.keyId(#target)} and insert
+ * the right encryption key for the right collection.
+ */
 @Component
-public class EntitySpelEvaluationExtension implements EvaluationContextExtension { // todo can rename?
+public class EntitySpelEvaluationExtension implements EvaluationContextExtension {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EntitySpelEvaluationExtension.class);
     private final DataEncryptionKeyService dataEncryptionKeyService;

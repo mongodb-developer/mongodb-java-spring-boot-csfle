@@ -17,6 +17,10 @@ import java.util.Map;
 
 import static java.util.List.of;
 
+/**
+ * Service responsible for creating and remembering the Data Encryption Keys (DEKs).
+ * We need to retrieve the DEKs when we evaluate the SpEL expressions in the Entities to create the JSON Schemas.
+ */
 @Service
 public class DataEncryptionKeyServiceImpl implements DataEncryptionKeyService {
 

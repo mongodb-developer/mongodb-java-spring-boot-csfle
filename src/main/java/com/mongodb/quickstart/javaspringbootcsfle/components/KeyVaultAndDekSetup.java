@@ -13,6 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class initialize the Key Vault (collection + keyAltNames unique index) using a dedicated standard connection
+ * to MongoDB.
+ * Then it creates the Data Encryption Keys (DEKs) required to encrypt the documents in each of the
+ * encrypted collections.
+ */
 @Component
 public class KeyVaultAndDekSetup {
 

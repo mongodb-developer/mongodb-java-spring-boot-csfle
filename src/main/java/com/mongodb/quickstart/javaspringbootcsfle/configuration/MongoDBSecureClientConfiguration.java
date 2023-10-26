@@ -22,6 +22,12 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * Spring Data MongoDB Configuration for the encrypted MongoClient with all the required configuration (jsonSchemas).
+ * The big trick in this file is the creation of the JSON Schemas before the creation of the entire configuration as
+ * we need the MappingContext to resolve the SpEL expressions in the entities.
+ * @see com.mongodb.quickstart.javaspringbootcsfle.components.EntitySpelEvaluationExtension
+ */
 @Configuration
 @DependsOn("keyVaultAndDekSetup")
 public class MongoDBSecureClientConfiguration {

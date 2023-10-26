@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+/**
+ * Create the encrypted collections with a server side JSON Schema to secure the encrypted field in the MongoDB database.
+ * This prevents any other client from inserting or editing the fields without encrypting the fields correctly.
+ */
 @Component
 public class EncryptedCollectionsSetup {
 

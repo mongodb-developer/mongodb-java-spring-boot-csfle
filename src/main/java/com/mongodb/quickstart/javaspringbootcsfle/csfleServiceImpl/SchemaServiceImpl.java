@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoJsonSchemaCreator;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
@@ -24,12 +25,10 @@ public class SchemaServiceImpl implements SchemaService {
     @Override
     public Map<MongoNamespace, BsonDocument> generateSchemasMap(MongoJsonSchemaCreator schemaCreator) {
         LOGGER.info("=> Generating schema map.");
-        return schemasMap = EncryptedCollectionsConfiguration.encryptedEntities.stream()
-                                                                               .collect(
-                                                                                       toMap(EncryptedEntity::getNamespace,
-                                                                                             e -> generateSchema(
-                                                                                                     schemaCreator,
-                                                                                                     e.getEntityClass())));
+        List<EncryptedEntity> encryptedEntities = EncryptedCollectionsConfiguration.encryptedEntities;
+        return schemasMap = encryptedEntities.stream()
+                                             .collect(toMap(EncryptedEntity::getNamespace,
+                                                            e -> generateSchema(schemaCreator, e.getEntityClass())));
     }
 
     @Override
@@ -42,7 +41,8 @@ public class SchemaServiceImpl implements SchemaService {
                                            .createSchemaFor(entityClass)
                                            .schemaDocument()
                                            .toBsonDocument();
-        LOGGER.info("=> JSON Schema: {}", schema.toJson(JsonWriterSettings.builder().indent(true).build()));
+        LOGGER.info("=> JSON Schema for {}:\n{}", entityClass.getSimpleName(),
+                    schema.toJson(JsonWriterSettings.builder().indent(true).build()));
         return schema;
     }
 

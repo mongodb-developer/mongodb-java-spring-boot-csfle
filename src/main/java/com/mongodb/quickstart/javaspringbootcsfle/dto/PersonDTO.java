@@ -4,6 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.quickstart.javaspringbootcsfle.model.PersonEntity;
 import org.bson.types.ObjectId;
 
+/**
+ * Person DTO used for all the communication with the REST API.
+ * Doesn't have to map 1:1 with the entity, but it does for this simple example.
+ * @param id
+ * @param firstName
+ * @param lastName
+ * @param ssn
+ * @param bloodType
+ */
 public record PersonDTO(
         String id,
         @JsonProperty("first_name") String firstName,

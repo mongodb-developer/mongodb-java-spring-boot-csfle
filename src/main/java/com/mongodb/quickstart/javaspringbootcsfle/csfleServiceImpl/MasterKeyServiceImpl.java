@@ -11,6 +11,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
 
+/**
+ * Master Key service.
+ * Responsible for the retrieval of an existing Master Key in the local file system if it exists.
+ * Responsible for generating and saving a new Master Key to a local file if necessary.
+ * It's not recommended to store a Master Key in the local file system in production.
+ * <a href="https://www.mongodb.com/docs/manual/core/csfle/reference/kms-providers/#supported-key-management-services">MongoDB KMS provider documentation</a>
+ */
 @Service
 public class MasterKeyServiceImpl implements MasterKeyService {
 

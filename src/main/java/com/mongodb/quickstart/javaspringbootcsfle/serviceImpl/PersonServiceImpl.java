@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Person Service.
+ * Contains the business logic layer between the Controller and Repositories (database).
+ */
 @Service
 public class PersonServiceImpl implements PersonService {
 

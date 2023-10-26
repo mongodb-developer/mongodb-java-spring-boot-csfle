@@ -2,6 +2,9 @@ package com.mongodb.quickstart.javaspringbootcsfle.configuration;
 
 import com.mongodb.MongoNamespace;
 
+/**
+ * This class contains the metadata about the encrypted collections.
+ */
 public class EncryptedEntity {
     public MongoNamespace namespace;
     public Class<?> entityClass;

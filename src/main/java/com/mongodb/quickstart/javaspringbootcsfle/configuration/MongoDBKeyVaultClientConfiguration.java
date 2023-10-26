@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * ClientEncryption used by the DataEncryptionKeyService to create the DEKs.
+ */
 @Configuration
 public class MongoDBKeyVaultClientConfiguration {
 

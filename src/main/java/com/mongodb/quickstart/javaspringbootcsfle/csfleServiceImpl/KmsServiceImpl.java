@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Do not use a local file to store your Master Key in production.
+ * Key Management System Service.
+ * Avoid using a local file to store your Master Key in production.
  * Use a proper KMS provider instead.
  * <a href="https://www.mongodb.com/docs/manual/core/csfle/reference/kms-providers/#supported-key-management-services">MongoDB KMS provider documentation</a>
  */

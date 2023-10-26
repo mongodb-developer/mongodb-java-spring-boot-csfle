@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 import static com.mongodb.client.model.Filters.exists;
 
+/**
+ * Initialization of the Key Vault collection and keyAltNames unique index.
+ */
 @Service
 public class KeyVaultServiceImpl implements KeyVaultService {
 
