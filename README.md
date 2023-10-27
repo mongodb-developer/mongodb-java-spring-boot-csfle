@@ -60,6 +60,8 @@ mvnw.cmd spring-boot:run
 
 # Test REST API
 
+## Persons
+
 Create a `person` document:
 
 ```bash
@@ -73,7 +75,7 @@ curl -X POST http://localhost:8080/person \
 }'
 ```
 
-Find all persons in the database. Note that the decryption is done automatically:
+Find all the persons in the database. Note that the decryption is done automatically:
 
 ```bash
 curl http://localhost:8080/persons
@@ -98,6 +100,31 @@ Result in the `persons` collection:
     _class: 'com.mongodb.quickstart.javaspringbootcsfle.model.PersonEntity'
   }
 ]
+```
+
+## Companies
+
+Create a `company` document:
+
+```bash
+curl -X POST http://localhost:8080/company \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "MongoDB",
+    "money": 42
+}'
+```
+
+Find all the companies in the database. Note that the decryption is done automatically:
+
+```bash
+curl http://localhost:8080/companies
+```
+
+Read the encrypted data in the `companies` collection:
+
+```bash
+mongosh "mongodb://localhost/mydb" --quiet --eval "db.companies.find()"
 ```
 
 # Author

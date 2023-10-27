@@ -1,8 +1,8 @@
 package com.mongodb.quickstart.javaspringbootcsfle.controller;
 
+import com.mongodb.quickstart.javaspringbootcsfle.csfleServiceImpl.MasterKeyServiceImpl;
 import com.mongodb.quickstart.javaspringbootcsfle.dto.PersonDTO;
 import com.mongodb.quickstart.javaspringbootcsfle.service.PersonService;
-import com.mongodb.quickstart.javaspringbootcsfle.csfleServiceImpl.MasterKeyServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,11 +22,6 @@ public class PersonController {
 
     public PersonController(PersonService personService) {
         this.personService = personService;
-    }
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello CSFLE!";
     }
 
     @GetMapping("/persons")
