@@ -46,7 +46,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDTO findBySsn(String ssn) {
         LOGGER.info("=> Find by SSN {}.", ssn);
-        PersonEntity personEntity = personRepository.findOneBySsn(ssn);
+        PersonEntity personEntity = personRepository.findFirstBySsn(ssn);
         if (personEntity == null) {
             throw new EntityNotFoundException("PersonServiceImpl#findBySsn", ssn);
         }
