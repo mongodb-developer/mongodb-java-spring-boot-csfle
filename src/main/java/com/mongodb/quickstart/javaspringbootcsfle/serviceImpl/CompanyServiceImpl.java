@@ -1,6 +1,7 @@
 package com.mongodb.quickstart.javaspringbootcsfle.serviceImpl;
 
 import com.mongodb.quickstart.javaspringbootcsfle.dto.CompanyDTO;
+import com.mongodb.quickstart.javaspringbootcsfle.exception.EntityNotFoundException;
 import com.mongodb.quickstart.javaspringbootcsfle.model.CompanyEntity;
 import com.mongodb.quickstart.javaspringbootcsfle.repository.CompanyRepository;
 import com.mongodb.quickstart.javaspringbootcsfle.service.CompanyService;
@@ -26,13 +27,18 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDTO> findAll() {
-        return companyRepository.findAll().stream().map(CompanyDTO::new).toList();
+        LOGGER.info("=> Find all companies.");
+        List<CompanyDTO> results = companyRepository.findAll().stream().map(CompanyDTO::new).toList();
+        if (results.isEmpty()) {
+            throw new EntityNotFoundException("CompanyServiceImpl#findAll");
+        }
+        return results;
     }
 
     @Override
     public CompanyDTO save(CompanyDTO companyDTO) {
         CompanyEntity company = companyDTO.toCompanyEntity();
-        LOGGER.info("Saving company: {}", company);
+        LOGGER.info("=> Saving company: {}", company);
         CompanyEntity companySaved = companyRepository.save(company);
         return new CompanyDTO(companySaved);
     }

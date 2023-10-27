@@ -1,7 +1,8 @@
 # Java Spring Boot Template with MongoDB CSFLE.
 
-This project is a template for a Java Spring Boot application with MongoDB Client-Side Field Level Encryption using
-Spring Data MongoDB.
+This project is a template for a Java Spring Boot application with
+[MongoDB Client-Side Field Level Encryption](https://docs.mongodb.com/manual/core/security-client-side-encryption/)
+using Spring Data MongoDB.
 
 For more information about this repository, read the associated [blog post](TODO: add link)
 
@@ -31,9 +32,10 @@ docker exec mongo mongosh --quiet --eval "rs.initiate();"
 
 Update the file [mongodb.properties](src%2Fmain%2Fresources%2Fmongodb.properties) with your MongoDB URI.
 
-> Note: When you are using MongoDB Client-Side Field Level Encryption, MongoDB recommends that you store the data and
-> the keys in two separate clusters in order to manage the keys independently of the data. That's because the retention
-> policies should be different (GDPR). For more information,
+> Note: When you are using MongoDB Client-Side Field Level Encryption, you have the opportunity to store the data and
+> the keys in two separate clusters in order to manage the keys independently of the data. You can choose to do so to
+> have a different backup retention policy for your two clusters (interesting for GDPR Article 17 "Right to erasure"
+> for instance). For more information,
 > see [Client-Side Field Level Encryption](https://docs.mongodb.com/manual/core/security-client-side-encryption/).
 
 ## MongoDB Automatic Encryption Shared Library
@@ -48,12 +50,17 @@ crypt.shared.lib.path=/home/polux/Software/mongo_crypt_shared_v1-linux-x86_64-en
 
 # Getting Started
 
+Update [mongodb.properties](src%2Fmain%2Fresources%2Fmongodb.properties) with your MongoDB URIs and MongoDB Automatic
+Encryption Shared library path.
+
 For Linux and macOS.
+
 ```bash
 ./mvnw spring-boot:run
 ```
 
 For Windows.
+
 ```bash
 mvnw.cmd spring-boot:run
 ```
@@ -76,6 +83,13 @@ curl -X POST http://localhost:8080/person \
 ```
 
 Find all the persons in the database. Note that the decryption is done automatically:
+
+```bash
+curl http://localhost:8080/persons
+```
+
+Find one person by SSN in the database. Note that the encryption of the SSN (for the search) is done automatically. Same
+for the decryption:
 
 ```bash
 curl http://localhost:8080/persons
@@ -125,6 +139,19 @@ Read the encrypted data in the `companies` collection:
 
 ```bash
 mongosh "mongodb://localhost/mydb" --quiet --eval "db.companies.find()"
+```
+
+Result in the `companies` collection:
+
+```javascript
+[
+  {
+    _id: ObjectId("653b1022110ea0067196894d"),
+    name: 'MongoDB',
+    money: Binary.createFromBase64("Au+QLuvvXE+gvw8N69fAbDYSjn2ep7Ye/Ap+N1YdBBuUOhLSpQtK9B7U38dx8xIcMz3sBvfOttqW8AOvRISxFa8a47T422hSnnwgCAjPNifnpA==", 6),
+    _class: 'com.mongodb.quickstart.javaspringbootcsfle.model.CompanyEntity'
+  }
+]
 ```
 
 # Author

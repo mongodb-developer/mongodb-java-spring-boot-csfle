@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Encrypted;
 /**
  * This is the entity class for the "persons" collection.
  * The SpEL expression of the @Encrypted annotation is used to determine the DEK's keyId to use for the encryption.
+ *
  * @see com.mongodb.quickstart.javaspringbootcsfle.components.EntitySpelEvaluationExtension
  */
 @Document("persons")
@@ -35,7 +36,7 @@ public class PersonEntity {
 
     @Override
     public String toString() {
-        return "Person{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", ssn='" + ssn + '\'' + ", bloodType='" + bloodType + '\'' + '}';
+        return "PersonEntity{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", ssn='" + ssn + '\'' + ", bloodType='" + bloodType + '\'' + '}';
     }
 
     public ObjectId getId() {
@@ -77,5 +78,4 @@ public class PersonEntity {
     public void setBloodType(String bloodType) {
         this.bloodType = bloodType;
     }
-
 }

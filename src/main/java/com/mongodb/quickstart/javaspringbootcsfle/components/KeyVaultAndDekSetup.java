@@ -25,7 +25,7 @@ public class KeyVaultAndDekSetup {
     private static final Logger LOGGER = LoggerFactory.getLogger(KeyVaultAndDekSetup.class);
     private final KeyVaultService keyVaultService;
     private final DataEncryptionKeyService dataEncryptionKeyService;
-    @Value("${spring.data.mongodb.storage.uri}")
+    @Value("${spring.data.mongodb.vault.uri}")
     private String CONNECTION_STR;
 
     public KeyVaultAndDekSetup(KeyVaultService keyVaultService, DataEncryptionKeyService dataEncryptionKeyService) {

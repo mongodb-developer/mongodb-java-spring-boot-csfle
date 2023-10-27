@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toMap;
  * Spring Data MongoDB Configuration for the encrypted MongoClient with all the required configuration (jsonSchemas).
  * The big trick in this file is the creation of the JSON Schemas before the creation of the entire configuration as
  * we need the MappingContext to resolve the SpEL expressions in the entities.
+ *
  * @see com.mongodb.quickstart.javaspringbootcsfle.components.EntitySpelEvaluationExtension
  */
 @Configuration
@@ -38,7 +39,9 @@ public class MongoDBSecureClientConfiguration {
     @Value("${crypt.shared.lib.path}")
     private String CRYPT_SHARED_LIB_PATH;
     @Value("${spring.data.mongodb.storage.uri}")
-    private String CONNECTION_STR;
+    private String CONNECTION_STR_DATA;
+    @Value("${spring.data.mongodb.vault.uri}")
+    private String CONNECTION_STR_VAULT;
     @Value("${mongodb.key.vault.db}")
     private String KEY_VAULT_DB;
     @Value("${mongodb.key.vault.coll}")
@@ -57,10 +60,8 @@ public class MongoDBSecureClientConfiguration {
 
     @Bean
     public MongoClientSettings mongoClientSettings() {
-        LOGGER.info("=> Creating the MongoClientSettings.");
-        return MongoClientSettings.builder()
-                                  .applyConnectionString(new ConnectionString(CONNECTION_STR))
-                                  .build();
+        LOGGER.info("=> Creating the MongoClientSettings for the encrypted collections.");
+        return MongoClientSettings.builder().applyConnectionString(new ConnectionString(CONNECTION_STR_DATA)).build();
     }
 
     @Bean
@@ -75,7 +76,12 @@ public class MongoDBSecureClientConfiguration {
                                                                               Map.Entry::getValue));
             Map<String, Object> extraOptions = Map.of("cryptSharedLibPath", CRYPT_SHARED_LIB_PATH,
                                                       "cryptSharedLibRequired", true);
+            MongoClientSettings mcs = MongoClientSettings.builder()
+                                                         .applyConnectionString(
+                                                                 new ConnectionString(CONNECTION_STR_VAULT))
+                                                         .build();
             AutoEncryptionSettings oes = AutoEncryptionSettings.builder()
+                                                               .keyVaultMongoClientSettings(mcs)
                                                                .keyVaultNamespace(KEY_VAULT_NS.getFullName())
                                                                .kmsProviders(kmsService.getKmsProviders())
                                                                .schemaMap(schemaMap)

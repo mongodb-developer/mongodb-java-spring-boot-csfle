@@ -8,4 +8,6 @@ public interface PersonService {
     List<PersonDTO> findAll();
 
     PersonDTO save(PersonDTO person);
+
+    PersonDTO findBySsn(String ssn);
 }
