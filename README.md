@@ -88,7 +88,7 @@ Find one person by SSN in the database. Note that the encryption of the SSN (for
 for the decryption:
 
 ```bash
-curl http://localhost:8080/persons
+curl http://localhost:8080/person/ssn/123-45-6789
 ```
 
 Read the encrypted data in the `persons` collection:
