@@ -9,8 +9,7 @@ For more information about this repository, read the associated [blog post](TODO
 The goal was to provide reusable classes and methods to easily implement MongoDB CSFLE in an existing Java Spring Boot
 application.
 
-Also, most tutorials I see online only work with a single encrypted collection and don't really plan for more than one
-encrypted collection.
+Also, most tutorials I see online only work with a single encrypted collection and don't really plan for more than one.
 
 # Prerequisites
 
@@ -18,6 +17,24 @@ encrypted collection.
 - [MongoDB Cluster](https://www.mongodb.com/atlas/database) v7.0.2 or higher.
 - [MongoDB Automatic Encryption Shared Library](https://www.mongodb.com/docs/manual/core/queryable-encryption/reference/shared-library/#download-the-automatic-encryption-shared-library)
   v7.0.2 or higher.
+
+# Getting Started
+
+Update the [mongodb.properties](src%2Fmain%2Fresources%2Fmongodb.properties) with your
+[MongoDB URIs](https://github.com/MaBeuLux88/mongodb-java-spring-boot-csfle#mongodb) and
+[MongoDB Automatic Encryption Shared library path](https://github.com/MaBeuLux88/mongodb-java-spring-boot-csfle#mongodb-automatic-encryption-shared-library).
+
+For Linux and macOS.
+
+```bash
+./mvnw spring-boot:run
+```
+
+For Windows.
+
+```bash
+mvnw.cmd spring-boot:run
+```
 
 ## MongoDB
 
@@ -30,8 +47,6 @@ sleep 5 && \
 docker exec mongo mongosh --quiet --eval "rs.initiate();"
 ```
 
-Update the file [mongodb.properties](src%2Fmain%2Fresources%2Fmongodb.properties) with your MongoDB URI.
-
 > Note: When you are using MongoDB Client-Side Field Level Encryption, you have the opportunity to store the data and
 > the keys in two separate clusters in order to manage the keys independently of the data. You can choose to do so to
 > have a different backup retention policy for your two clusters (interesting for GDPR Article 17 "Right to erasure"
@@ -41,28 +56,9 @@ Update the file [mongodb.properties](src%2Fmain%2Fresources%2Fmongodb.properties
 ## MongoDB Automatic Encryption Shared Library
 
 Make sure to download and extract the shared library in the folder of your choice.
-You will need to specify the path to this library in
-the [mongodb.properties](src%2Fmain%2Fresources%2Fmongodb.properties) file.
 
 ```properties
 crypt.shared.lib.path=/home/polux/Software/mongo_crypt_shared_v1-linux-x86_64-enterprise-debian11-7.0.2/lib/mongo_crypt_v1.so
-```
-
-# Getting Started
-
-Update [mongodb.properties](src%2Fmain%2Fresources%2Fmongodb.properties) with your MongoDB URIs and MongoDB Automatic
-Encryption Shared library path.
-
-For Linux and macOS.
-
-```bash
-./mvnw spring-boot:run
-```
-
-For Windows.
-
-```bash
-mvnw.cmd spring-boot:run
 ```
 
 # Test REST API
