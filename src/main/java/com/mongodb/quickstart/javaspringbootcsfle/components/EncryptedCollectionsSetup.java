@@ -8,6 +8,7 @@ import com.mongodb.client.model.ValidationOptions;
 import com.mongodb.quickstart.javaspringbootcsfle.csfleService.SchemaService;
 import jakarta.annotation.PostConstruct;
 import org.bson.BsonDocument;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -34,14 +35,17 @@ public class EncryptedCollectionsSetup {
     public void postConstruct() {
         LOGGER.info("=> Setup the encrypted collections.");
         schemaService.getSchemasMap()
-                     .forEach((namespace, schema) -> createCollectionIfNecessary(mongoClient, namespace, schema));
+                     .forEach((namespace, schema) -> createOrUpdateCollection(mongoClient, namespace, schema));
     }
 
-    private void createCollectionIfNecessary(MongoClient mongoClient, MongoNamespace ns, BsonDocument schema) {
+    private void createOrUpdateCollection(MongoClient mongoClient, MongoNamespace ns, BsonDocument schema) {
         MongoDatabase db = mongoClient.getDatabase(ns.getDatabaseName());
         String collStr = ns.getCollectionName();
-        if (!doesCollectionExist(db, ns)) {
-            LOGGER.info("=> Creating encrypted collection with server side JSON Schema {}.", ns.getFullName());
+        if (doesCollectionExist(db, ns)) {
+            LOGGER.info("=> Updating {} collection's server side JSON Schema.", ns.getFullName());
+            db.runCommand(new Document("collMod", collStr).append("validator", jsonSchemaWrapper(schema)));
+        } else {
+            LOGGER.info("=> Creating encrypted collection {} with server side JSON Schema.", ns.getFullName());
             db.createCollection(collStr, new CreateCollectionOptions().validationOptions(
                     new ValidationOptions().validator(jsonSchemaWrapper(schema))));
         }
