@@ -55,7 +55,7 @@ docker exec mongo mongosh --quiet --eval "rs.initiate();"
 
 ## MongoDB Automatic Encryption Shared Library
 
-Make sure to download and extract the shared library in the folder of your choice.
+Make sure to [download](https://www.mongodb.com/docs/manual/core/queryable-encryption/reference/shared-library/#download-the-automatic-encryption-shared-library) and extract the shared library in the folder of your choice.
 
 ```properties
 crypt.shared.lib.path=/home/polux/Software/mongo_crypt_shared_v1-linux-x86_64-enterprise-debian11-7.0.2/lib/mongo_crypt_v1.so
