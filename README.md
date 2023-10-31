@@ -63,6 +63,13 @@ crypt.shared.lib.path=/home/polux/Software/mongo_crypt_shared_v1-linux-x86_64-en
 
 # Test REST API
 
+## Swagger 3
+- Swagger 3 is already configured in this project.
+- The Swagger UI can be seen at [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
+- The JSON Open API documentation 3.0.1 is at [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
+- The YAML Open API documentation 3.0.1 is at [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3/api-docs.yaml).
+- You can also try the entire REST API directly from the Swagger interface!
+
 ## Persons
 
 Create a `person` document:
