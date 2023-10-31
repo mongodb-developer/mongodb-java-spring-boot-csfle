@@ -4,12 +4,23 @@ This project is a template for a Java Spring Boot application with
 [MongoDB Client-Side Field Level Encryption](https://docs.mongodb.com/manual/core/security-client-side-encryption/)
 using Spring Data MongoDB.
 
-For more information about this repository, read the associated [blog post](TODO: add link)
+For more information about this repository, read the
+associated [blog post](https://www.mongodb.com/developer/code-examples/java/java-spring-data-client-side-field-level-encryption/).
 
 The goal was to provide reusable classes and methods to easily implement MongoDB CSFLE in an existing Java Spring Boot
 application.
 
-Also, most tutorials I see online only work with a single encrypted collection and don't really plan for more than one.
+Here are a few features in this repository:
+
+- multiple encrypted collections,
+- automated JSON Schema generation,
+- server side JSON Schema,
+- separated clusters for DEKs and encrypted collections,
+- automated Data Encryption Keys generation or retrieval,
+- SpEL Evaluation Extension,
+- auto-implemented repositories,
+- Open API documentation 3.0.1,
+- and much more.
 
 # Prerequisites
 
@@ -55,7 +66,9 @@ docker exec mongo mongosh --quiet --eval "rs.initiate();"
 
 ## MongoDB Automatic Encryption Shared Library
 
-Make sure to [download](https://www.mongodb.com/docs/manual/core/queryable-encryption/reference/shared-library/#download-the-automatic-encryption-shared-library) and extract the shared library in the folder of your choice.
+Make sure
+to [download](https://www.mongodb.com/docs/manual/core/queryable-encryption/reference/shared-library/#download-the-automatic-encryption-shared-library)
+and extract the shared library in the folder of your choice.
 
 ```properties
 crypt.shared.lib.path=/home/polux/Software/mongo_crypt_shared_v1-linux-x86_64-enterprise-debian11-7.0.2/lib/mongo_crypt_v1.so
@@ -64,10 +77,13 @@ crypt.shared.lib.path=/home/polux/Software/mongo_crypt_shared_v1-linux-x86_64-en
 # Test REST API
 
 ## Swagger 3
+
 - Swagger 3 is already configured in this project.
-- The Swagger UI can be seen at [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
+- The Swagger UI can be seen
+  at [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
 - The JSON Open API documentation 3.0.1 is at [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
-- The YAML Open API documentation 3.0.1 is at [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3/api-docs.yaml).
+- The YAML Open API documentation 3.0.1 is
+  at [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3/api-docs.yaml).
 - You can also try the entire REST API directly from the Swagger interface!
 
 ## Persons
