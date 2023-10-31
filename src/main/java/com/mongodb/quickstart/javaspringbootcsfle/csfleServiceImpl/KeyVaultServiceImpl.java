@@ -38,8 +38,7 @@ public class KeyVaultServiceImpl implements KeyVaultService {
         boolean vaultExists = doesCollectionExist(db, KEY_VAULT_COLL);
         if (vaultExists) {
             LOGGER.info("=> Vault collection already exists.");
-            boolean indexExists = doesIndexExist(vault);
-            if (!indexExists) {
+            if (!doesIndexExist(vault)) {
                 LOGGER.info("=> Unique index created on the keyAltNames");
                 createKeyVaultIndex(vault);
             }
@@ -57,15 +56,15 @@ public class KeyVaultServiceImpl implements KeyVaultService {
         vault.createIndex(new BsonDocument("keyAltNames", new BsonInt32(1)), indexOpts);
     }
 
+    private boolean doesCollectionExist(MongoDatabase db, String coll) {
+        return db.listCollectionNames().into(new ArrayList<>()).stream().anyMatch(c -> c.equals(coll));
+    }
+
     private boolean doesIndexExist(MongoCollection<Document> coll) {
         return coll.listIndexes()
                    .into(new ArrayList<>())
                    .stream()
                    .map(i -> i.get("name"))
                    .anyMatch(n -> n.equals(INDEX_NAME));
-    }
-
-    private boolean doesCollectionExist(MongoDatabase db, String coll) {
-        return db.listCollectionNames().into(new ArrayList<>()).stream().anyMatch(c -> c.equals(coll));
     }
 }
