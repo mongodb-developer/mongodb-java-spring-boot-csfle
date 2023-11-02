@@ -12,15 +12,14 @@ application.
 
 Here are a few features in this repository:
 
-- multiple encrypted collections,
-- automated JSON Schema generation,
-- server side JSON Schema,
-- separated clusters for DEKs and encrypted collections,
-- automated Data Encryption Keys generation or retrieval,
-- SpEL Evaluation Extension,
-- auto-implemented repositories,
-- Open API documentation 3.0.1,
-- and much more.
+- Multiple encrypted collections.
+- Automated JSON Schema generation.
+- Server side JSON Schema.
+- Separated clusters for DEKs and encrypted collections.
+- Automated data encryption keys generation or retrieval.
+- SpEL Evaluation Extension.
+- Auto-implemented repositories.
+- Open API documentation 3.0.1.
 
 # Prerequisites
 
