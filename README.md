@@ -174,4 +174,8 @@ Result in the `companies` collection:
 
 # Author
 
-Maxime BEUGNET <maxime@mongodb.com>
+Maxime Beugnet
+
+- maxime@mongodb.com
+- MaBeuLux88 on [GitHub](https://github.com/mabeulux88)
+- MaBeuLux88 in the [MongoDB Developer Community forum](https://www.mongodb.com/community/forums/u/MaBeuLux88/summary).
