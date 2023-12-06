@@ -42,10 +42,9 @@ public class PersonController {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public final Exception handleNotFoundExceptions(EntityNotFoundException e) {
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "MongoDB didn't find any document.")
+    public final void handleNotFoundExceptions(EntityNotFoundException e) {
         LOGGER.info("=> Person not found: {}", e.toString());
-        return null;
     }
 
     @ExceptionHandler(RuntimeException.class)
